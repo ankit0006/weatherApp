@@ -122,180 +122,165 @@ const HomePage = () => {
     console.log(current)
   
 
-  return (
-    <div>
-      {/* Header */}
-      <div className={`flex justify-around mt-2 p-4 ${darkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <MaterialUISwitch
-                sx={{ m: 1 }}
-                checked={darkMode}
-                onChange={toggleMode}
-              />
-            }
-            label={darkMode ? 'Dark mode' : 'Light mode'}
-          />
-        </FormGroup>
-        <div className={`border-2 w-[60%] ${darkMode ? 'border-gray-600' : 'border-gray-400'} h-12 flex rounded-3xl m-2`}>
-          <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
-            <SearchIcon />
-          </IconButton>
-          <input
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Search for your preferred city"
-            className={`min-w-[95%] border-transparent rounded-2xl outline-none ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-50 text-black'}`}
-          />
+    return (
+      <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-black'}`}>
+        {/* Header */}
+        <div className={`flex flex-wrap md:flex-nowrap items-center justify-between p-4 ${darkMode ? 'bg-gray-800' : 'bg-gray-50'}`}>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <MaterialUISwitch
+                  sx={{ m: 1 }}
+                  checked={darkMode}
+                  onChange={toggleMode}
+                />
+              }
+              label={darkMode ? 'Dark mode' : 'Light mode'}
+            />
+          </FormGroup>
+          <div
+            className={`flex items-center border-2 rounded-3xl px-4 py-2 w-full md:w-1/2 ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-400 bg-gray-50'}`}
+          >
+            <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
+              <SearchIcon />
+            </IconButton>
+            <input
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Search for your preferred city"
+              className="w-full border-transparent rounded-xl outline-none bg-transparent text-sm md:text-base"
+            />
+          </div>
+          <div
+            className={`flex items-center rounded-3xl px-4 py-2 mt-2 md:mt-0 cursor-pointer ${darkMode ? 'bg-green-700' : 'bg-green-500'} text-white`}
+            onClick={handleCurrentLocation}
+          >
+            <img src={target} alt="Current location" className="w-6 h-6 rounded-full" />
+            <button className="ml-2 font-medium text-sm md:text-lg">Current Location</button>
+          </div>
         </div>
-        <div
-          className={`flex w-fit h-12 items-center rounded-3xl p-2 ${darkMode ? 'bg-green-700' : 'bg-green-500'} text-white`}
-          onClick={handleCurrentLocation}
-        >
-          <img src={target} alt="Current location" className="w-6 h-6 rounded-full" />
-          <button className="ml-2 font-medium text-lg">Current Location</button>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className={`flex flex-col items-center mb-5 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
-        <div className="flex mt-10">
+    
+        {/* Main Content */}
+        <div className="flex flex-wrap md:flex-nowrap items-start justify-center mt-10 gap-6 px-4">
           {/* City and Date Card */}
           <div
-            className={`w-[510px] h-[330px] ml-20 border-2 rounded-[30px] flex flex-col items-center align-middle shadow-2xl ${
-              darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'
-            }`}
+            className={`flex flex-col items-center justify-center w-full md:w-1/3 p-6 border-2 rounded-3xl shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}
           >
-            <h1 className="font-extrabold text-3xl mt-5">
-              {location?.name || 'Loading...'}
-            </h1>
-            <h1 className="font-extrabold text-8xl mt-12">
+            <h1 className="font-extrabold text-2xl text-center">{location?.name || 'Loading...'}</h1>
+            <h1 className="font-extrabold text-5xl text-center mt-6">
               {location?.localtime
-                ? new Date(location.localtime).toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })
+                ? new Date(location.localtime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                 : '--:--'}
             </h1>
-
-            <p className="font-bold text-2xl mt-5">
+            <p className="text-center font-bold text-lg mt-4">
               {location?.localtime
                 ? new Date(location.localtime).toLocaleDateString()
                 : 'Loading Date...'}
             </p>
           </div>
-
+    
           {/* Weather Information Card */}
           <div
-            className={`w-[780px] h-[330px] border-2 rounded-[30px] ml-[55px] p-5 shadow-2xl ${
-              darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'
-            }`}
+            className={`w-full md:w-2/3 p-6 border-2 rounded-3xl shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}
           >
-            <h2 className="text-2xl font-bold mb-2">Current Weather</h2>
+            <h2 className="text-xl font-bold mb-4">Current Weather</h2>
             {loading && <p>Loading...</p>}
             {error && <p className="text-red-500">{error}</p>}
             {current && (
-              <div className="flex justify-between items-center h-full px-6">
-                <div>
-                  <p className="text-6xl font-bold">{current.temp_c}°C</p>
-                  <p className="text-lg mt-2">Feels like: {current.feelslike_c}°C</p>
+              <div className="flex flex-wrap justify-start gap-4">
+                <div className="w-full md:w-1/3">
+                  <p className="text-5xl font-bold">{current.temp_c}°C</p>
+                  <p className="text-base mt-2">Feels like: {current.feelslike_c}°C</p>
                 </div>
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center w-full md:w-1/3">
                   <img
                     src={`https:${current.condition.icon}`}
                     alt="Weather Icon"
-                    className="w-50 h-50"
+                    className="w-20 h-20"
                   />
-                  <p className="text-lg">{current.condition.text}</p>
+                  <p className="text-lg mt-2">{current.condition.text}</p>
                 </div>
-                <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="grid grid-cols-2 gap-2 text-sm w-full md:w-1/3">
                   <div>💧 Humidity: {current.humidity}%</div>
                   <div>🌬 Wind Speed: {current.wind_kph} kph</div>
                   <div>🌡 Pressure: {current.pressure_mb} hPa</div>
                   <div>☀️ UV Index: {current.uv}</div>
                 </div>
               </div>
-
-          )}
+            )}
+          </div>
         </div>
-      </div>
-
-      <div className='flex mt-12'>
-        {/* Card 3 */}
-        <div
-        className={`w-[414px] h-[366px] ml-20 border-2 rounded-[30px] shadow-2xl ${
-          darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'
-        }`}
-      >
-        <div className="place-items-center mt-5">
-          <h1 className="font-bold text-2xl">5-Day Forecast</h1>
-        </div>
-        <div className="grid grid-cols-1 gap-3 mt-4 px-4 overflow-y-auto h-[260px]">
-          {loading && <p>Loading...</p>}
-          {error && <p className="text-red-500">{error}</p>}
-          {forecast && forecast.length > 0 ? (
-            forecast.map((day) => (
-              <div
-                key={day.date}
-                className={`flex items-center justify-between p-3 border rounded-lg ${
-                  darkMode ? 'bg-gray-700' : 'bg-gray-100'
-                }`}
-              >
-                <div>
-                  <h3 className="text-sm font-bold">{day.date}</h3>
-                  <p className="text-sm">{day.day.condition.text}</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <img
-                    src={`https:${day.day.condition.icon}`}
-                    alt="Weather Icon"
-                    className="w-8 h-8"
-                  />
-                  <div>
-                    <p className="text-sm">
-                      🌡 {day.day.maxtemp_c}°C / {day.day.mintemp_c}°C
-                    </p>
-                    <p className="text-sm">💧 {day.day.avghumidity}%</p>
+    
+        {/* Forecast Section */}
+        <div className="flex flex-wrap md:flex-nowrap justify-center mt-12 gap-6 px-4">
+          {/* 5-Day Forecast Card */}
+          <div
+            className={`w-full md:w-1/3 p-6 border-2 rounded-3xl shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}
+          >
+            <h1 className="text-xl font-bold text-center">5-Day Forecast</h1>
+            <div className="mt-4 space-y-3 overflow-y-auto h-64">
+              {loading && <p>Loading...</p>}
+              {error && <p className="text-red-500">{error}</p>}
+              {forecast && forecast.length > 0 ? (
+                forecast.map((day) => (
+                  <div
+                    key={day.date}
+                    className={`flex justify-between p-3 border rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}
+                  >
+                    <div>
+                      <h3 className="text-sm font-bold">{day.date}</h3>
+                      <p className="text-sm">{day.day.condition.text}</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={`https:${day.day.condition.icon}`}
+                        alt="Weather Icon"
+                        className="w-8 h-8"
+                      />
+                      <div>
+                        <p className="text-sm">🌡 {day.day.maxtemp_c}°C / {day.day.mintemp_c}°C</p>
+                        <p className="text-sm">💧 {day.day.avghumidity}%</p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p>No forecast data available.</p>
-          )}
-        </div>
-        </div>
-
-        {/* Card 4 */}
-        <div className={`w-[870px] h-[366px] ml-[61px] border-2 rounded-[30px] shadow-2xl ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
-        <h1 className="text-2xl font-bold text-center mt-4">Hourly Forecast</h1>
-        <div className="grid grid-cols-4 gap-4 p-4 overflow-y-auto h-[300px]">
-        {loading && <p>Loading...</p>}
-        {error && <p className="text-red-500">{error}</p>}
-        {forecast && forecast.length > 0 ? (
-          forecast[0].hour.map((hour, index) => (
-            <div
-              key={index}
-              className={`flex flex-col items-center p-3 border rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}
-            >
-              <p className="font-bold text-sm">{new Date(hour.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-              <img src={`https:${hour.condition.icon}`} alt="Weather Icon" className="w-12 h-12" />
-              <p className="text-sm">{hour.temp_c}°C</p>
-              <p className="text-xs">🌧 {hour.precip_mm} mm</p>
-              <p className="text-xs">💨 {hour.wind_kph} kph</p>
+                ))
+              ) : (
+                <p>No forecast data available.</p>
+              )}
             </div>
-          ))
-        ) : (
-          <p className="col-span-4 text-center">No hourly forecast available.</p>
-        )}
-        </div>
+          </div>
+    
+          {/* Hourly Forecast Card */}
+          <div
+            className={`w-full md:w-2/3 p-6 border-2 rounded-3xl shadow-lg ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}
+          >
+            <h1 className="text-xl font-bold text-center">Hourly Forecast</h1>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-4 overflow-y-auto h-64">
+              {loading && <p>Loading...</p>}
+              {error && <p className="text-red-500">{error}</p>}
+              {forecast && forecast.length > 0 ? (
+                forecast[0].hour.map((hour, index) => (
+                  <div
+                    key={index}
+                    className={`flex flex-col items-center p-3 border rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}
+                  >
+                    <p className="font-bold text-sm">{new Date(hour.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                    <img src={`https:${hour.condition.icon}`} alt="Weather Icon" className="w-12 h-12" />
+                    <p className="text-sm">{hour.temp_c}°C</p>
+                    <p className="text-xs">🌧 {hour.precip_mm} mm</p>
+                    <p className="text-xs">💨 {hour.wind_kph} kph</p>
+                  </div>
+                ))
+              ) : (
+                <p className="col-span-4 text-center">No hourly forecast available.</p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    </div>
-  );
+    );
+    
 };
 
 export default HomePage;
